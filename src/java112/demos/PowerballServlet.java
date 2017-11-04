@@ -105,6 +105,9 @@ public class PowerballServlet extends HttpServlet {
          //Add Powerball Bean to the Request
          request.setAttribute("myPowerballBean", myPowerballBean);
 
+         //Add Powerball Bean ArrayList to the Request
+        request.setAttribute("myPowerballBeanList", powerballBeanList);
+
          //Forward to the Powerball page
          String url = "/powerball.jsp";
 
