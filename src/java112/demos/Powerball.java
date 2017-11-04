@@ -2,38 +2,38 @@ package java112.project3;
 
 import java.util.*;
 
-/**
- * This is a JavaBean used to store Powerball numbers.
- *
- * @author jadams
- */
-public class PowerballBean extends Object {
+public class Powerball {
 
     private  int  luckyNumber;
     private  int unluckyNumber;
-    private  boolean foundLuckyNumber = false;
-    private  boolean foundUnLuckyNumber = false;
-    private  List<Integer> winningNumbers = new ArrayList<>();
+    private  boolean foundLuckyNumber;
+    private  boolean foundUnluckyNumber;
+    private  List<Integer> regularNumbers;
+    private  List<Integer> powerballNumbers;
+    private  List<Integer> winningNumbers;
     private  int   powerballNumber;
 
-    /**
-     * Constructor for the PowerballBean object
-     */
-    public PowerballBean() {
+    private static final int MAX_REGULAR_NUMBERS = 69;
+    private static final int MAX_POWERBALL_NUMBERS = 26;
 
+    /**
+     * Instantiates a new Powerball.
+     */
+    public Powerball() {
+        loadNumbers();
     }
 
     /**
-     * Instantiates a new Powerball bean.
+     * Instantiates a new Powerball.
      *
      * @param luckyNumber   the lucky number
      * @param unluckyNumber the unlucky number
      */
-    public PowerballBean(int luckyNumber, int unluckyNumber) {
+    public Powerball(int luckyNumber, int unluckyNumber) {
         this();
         this.luckyNumber = luckyNumber;
         this.unluckyNumber = unluckyNumber;
-    }
+     }
 
     /**
      * Gets lucky number.
@@ -76,7 +76,7 @@ public class PowerballBean extends Object {
      *
      * @return the boolean
      */
-    public boolean isFoundLuckyNumber() {
+    public boolean isFoundLuckyNumber()  {
         return foundLuckyNumber;
     }
 
@@ -94,19 +94,18 @@ public class PowerballBean extends Object {
      *
      * @return the boolean
      */
-    public boolean isFoundUnLuckyNumber() {
-        return foundUnLuckyNumber;
+    public boolean isFoundUnluckyNumber()  {
+        return foundUnluckyNumber;
     }
 
     /**
      * Sets found un lucky number.
      *
-     * @param foundUnLuckyNumber the found un lucky number
+     * @param foundUnluckyNumber the found un lucky number
      */
-    public void setFoundUnLuckyNumber(boolean foundUnLuckyNumber) {
-        this.foundUnLuckyNumber = foundUnLuckyNumber;
+    public void setFoundUnluckyNumber(boolean foundUnluckyNumber)  {
+        this.foundUnluckyNumber = foundUnluckyNumber;
     }
-
 
     /**
      * Gets powerball number.
@@ -114,6 +113,7 @@ public class PowerballBean extends Object {
      * @return the powerball number
      */
     public int getPowerballNumber() {
+        drawPowerballNumber();
         return powerballNumber;
     }
 
@@ -127,34 +127,100 @@ public class PowerballBean extends Object {
     }
 
     /**
+     * Sets winning numbers.
+     *
+     * @param winningNumbers the winning numbers
+     */
+    public void setWinningNumbers(List<Integer> winningNumbers)  {
+        this.winningNumbers = winningNumbers;
+    }
+
+    /**
      * Gets winning numbers.
      *
      * @return the winning numbers
      */
     public List<Integer> getWinningNumbers() {
+        drawWinningNumbers();
         return winningNumbers;
     }
 
-    /**
-     * Sets winning numbers.
-     *
-     * @param winningNumbers the winning numbers
-     */
-    public void setWinningNumbers(List<Integer> winningNumbers) {
-        this.winningNumbers = winningNumbers;
+    private void loadNumbers() {
+
+        //Instantiate Instance Variables
+        regularNumbers = new ArrayList<>();
+        powerballNumbers = new ArrayList<>();
+
+
+        //Create Regular Number list (1-69) and Powerball Number list(1-26)
+        for (int i = 1; i < MAX_REGULAR_NUMBERS; i++) {
+
+             //Load the Powerball Numbers (1-26)
+             if (i < MAX_POWERBALL_NUMBERS) {
+                 powerballNumbers.add(i);
+             }
+
+             //Load the Regular Numbers (1-69)
+             regularNumbers.add(i);
+        }
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "PowerballBean{" +
-                "luckyNumber=" + luckyNumber +
-                ", unluckyNumber=" + unluckyNumber +
-                ", foundLuckyNumber=" + foundLuckyNumber +
-                ", foundUnLuckyNumber=" + foundUnLuckyNumber +
-                ", winningNumbers=" + winningNumbers +
-                ", powerballNumber=" + powerballNumber +
-                '}';
+    private void drawWinningNumbers() {
+
+        //Instantiate Instance Variables
+        winningNumbers = new ArrayList<>();
+
+        //Shuffle Regular Numbers
+        Collections.shuffle(regularNumbers, new Random());
+
+        //Add the first 5 numbers to the winning numbers array
+        for (int i = 0; i < 5; i++) {
+            winningNumbers.add(regularNumbers.get(i));
+        }
+
+        //Sort the numbers
+        Collections.sort(winningNumbers);
+
     }
+
+     private void drawPowerballNumber() {
+
+         //Shuffle the Powerball Numbers
+         Collections.shuffle(powerballNumbers, new Random());
+
+         powerballNumber = powerballNumbers.get(0);
+
+     }
+
+     private boolean getIsFoundLuckyNumber(PowerballBean myPowerballBean) {
+
+         if (winningNumbers.contains(luckyNumber) ||
+                 powerballNumber == luckyNumber) {
+
+             return true;
+
+         } else {
+
+             return false;
+
+         }
+
+     }
+
+     private boolean getIsFoundUnLuckyNumber(PowerballBean myPowerballBean) {
+
+         if (winningNumbers.contains(unluckyNumber) ||
+                 powerballNumber == unluckyNumber) {
+
+             return true;
+
+          } else {
+
+             return false;
+
+         }
+     }
+
 }
 
 
