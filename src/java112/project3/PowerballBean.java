@@ -35,6 +35,12 @@ public class PowerballBean {
         this.setUnluckyNumber(unluckyNumber);
     }
 
+    @Override
+    public String toString() {
+       return "<tr><td>" + winningNumbers + "</td><td>" + powerballNumber +
+                "</td><td>" + luckyNumber + "</td><td>" + unluckyNumber + "</td></tr>";
+    }
+
     /**
      * Gets lucky number.
      *
